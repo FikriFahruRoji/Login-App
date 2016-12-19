@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(i);
                     finish();
                 } else {
-                    Toast toast = Toast.makeText(MainActivity.this, "fail to login", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(MainActivity.this, getString(R.string.error_login), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
