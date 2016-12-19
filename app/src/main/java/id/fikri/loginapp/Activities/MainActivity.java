@@ -53,18 +53,26 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Users>() {
             @Override
             public void onResponse(Call<Users> call, Response<Users> response) {
+                boolean login = false;
+                String email = tv_email.getText().toString();
+                String password = tv_password.getText().toString();
+
                 for(Users.UserItem user : response.body().getUsers()) {
                     String getEmail = user.getEmail();
                     String getPassword = user.getPassword();
 
-                    if (tv_email.getText().toString().equals(getEmail) && tv_password.getText().toString().equals(getPassword)) {
-                        Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
-                        startActivity(i);
-                        finish();
-                    } else {
-                        Toast toast = Toast.makeText(MainActivity.this, "fail to login", Toast.LENGTH_SHORT);
-                        toast.show();
+                    if (email.equals(getEmail) && password.equals(getPassword)) {
+                        login = true;
                     }
+                }
+
+                if (login == true) {
+                    Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
+                    startActivity(i);
+                    finish();
+                } else {
+                    Toast toast = Toast.makeText(MainActivity.this, "fail to login", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
 
