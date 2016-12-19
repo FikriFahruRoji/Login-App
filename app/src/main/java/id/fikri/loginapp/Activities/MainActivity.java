@@ -2,6 +2,7 @@ package id.fikri.loginapp.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
     UserAPI user_api = retrofit.create(UserAPI.class);
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         tv_email = (EditText)findViewById(R.id.edit_email);
         tv_password = (EditText)findViewById(R.id.edit_password);
@@ -87,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Users> call, Throwable t) {
-
+                Toast toast = Toast.makeText(MainActivity.this, getString(R.string.error_connect_api), Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }
