@@ -34,12 +34,10 @@ public class MainActivity extends AppCompatActivity {
     Retrofit retrofit = new Retrofit.Builder().baseUrl("https://private-7bb04d-signandlogin.apiary-mock.com/users/").addConverterFactory(GsonConverterFactory.create(gson)).build();
     UserAPI user_api = retrofit.create(UserAPI.class);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         tv_email = (EditText)findViewById(R.id.edit_email);
         tv_password = (EditText)findViewById(R.id.edit_password);
@@ -77,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (login == true) {
-                    Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
-                    startActivity(i);
+                    WelcomeActivity.prefs.edit().putBoolean("auth", false).commit();
+                    startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
                     finish();
                 } else {
                     Toast toast = Toast.makeText(MainActivity.this, getString(R.string.error_login), Toast.LENGTH_SHORT);
