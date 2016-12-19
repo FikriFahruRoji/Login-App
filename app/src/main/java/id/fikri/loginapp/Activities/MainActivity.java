@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,21 +33,30 @@ public class MainActivity extends AppCompatActivity {
     Retrofit retrofit = new Retrofit.Builder().baseUrl("https://private-7bb04d-signandlogin.apiary-mock.com/users/").addConverterFactory(GsonConverterFactory.create(gson)).build();
     UserAPI user_api = retrofit.create(UserAPI.class);
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv_email = (TextView)findViewById(R.id.edit_email);
-        tv_password = (TextView)findViewById(R.id.edit_password);
+        tv_email = (EditText)findViewById(R.id.edit_email);
+        tv_password = (EditText)findViewById(R.id.edit_password);
         btn_login = (Button)findViewById(R.id.button_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login();
+                if (tv_email.getText().toString().trim().length() == 0) {
+                    tv_email.setError(getString(R.string.error_mail));
+                } else if (tv_password.getText().toString().trim().length() == 0) {
+                    tv_password.setError(getString(R.string.error_password));
+                } else {
+                    login();
+                }
             }
         });
     }
+
 
     public void login(){
         Call<Users> call = user_api.getUsers();
@@ -60,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 for(Users.UserItem user : response.body().getUsers()) {
                     String getEmail = user.getEmail();
                     String getPassword = user.getPassword();
-
                     if (email.equals(getEmail) && password.equals(getPassword)) {
                         login = true;
                     }
